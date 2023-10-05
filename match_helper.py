@@ -154,7 +154,11 @@ def visualize_epipolar_lines(img1, img2, pts1, pts2, F, colors):
         # Note that I do manually enforce that the drawing area is restricted
         # to the image, meaning that you can also draw outside of the image and
         # get away with it.
-
+        homogeneous_x2 = np.array([x2, y2, 1])
+        epipolar_line_1 = F.T @ homogeneous_x2
+        start_y = (-epipolar_line_1[0] * 0 - epipolar_line_1[2]) / epipolar_line_1[1]
+        end_y = (-epipolar_line_1[0] * img1.shape[1] - epipolar_line_1[2]) / epipolar_line_1[1]
+        plt.plot(np.array([0, img1.shape[1]]), np.array([start_y, end_y]), color=c)
 
     fig.axes.get_xaxis().set_visible(False)
     fig.axes.get_yaxis().set_visible(False)
